@@ -1,0 +1,12 @@
+[project]
+name = "projet-perso"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "holidays>=0.100",
+    "jupyterlab>=4.6.1",
+    "matplotlib>=3.11.0",
+    "pandas>=3.0.3",
+    "pandas-stubs~=3.0.3",
+    "scikit-learn>=1.9.0",
+]
