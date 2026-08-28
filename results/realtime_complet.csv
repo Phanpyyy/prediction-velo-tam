@@ -1,0 +1,53 @@
+station_id,availableBikeNumber,freeSlotNumber,status,name,lat,lon
+006,1,26,working,Place Albert 1er - St Charles,43.616768,3.873375
+007,5,3,working,Foch,43.610989,3.873345
+014,2,14,working,Beaux-Arts,43.616698,3.884981
+018,7,9,working,Nombre d'Or,43.607859,3.886644
+020,3,5,working,Gambetta,43.607106,3.870693
+032,4,4,working,Prés d'Arènes,43.59048,3.884611
+033,1,7,working,Garcia Lorca,43.590757,3.890616
+040,4,4,working,Jeu de Mail des Abbés,43.619701,3.883831
+041,0,8,working,Euromédecine,43.639119,3.828199
+042,0,8,working,Marie Caizergues,43.619871,3.873812
+048,0,8,working,Hôtel du Département,43.621682,3.83477
+061,3,13,working,Jean de Beins,43.609857,3.883884
+002,11,9,working,Comédie,43.608148,3.878778
+010,4,12,working,Rondelet,43.603038,3.875796
+011,1,11,working,Plan Cabanes,43.608491,3.868389
+012,0,12,working,Boutonnet,43.622629,3.868375
+017,5,11,working,Médiathèque Emile Zola,43.608218,3.89314
+019,2,14,working,Louis Blanc,43.614642,3.877648
+029,3,12,working,Richter,43.603424,3.899263
+030,2,6,working,Charles Flahault,43.622038,3.86672
+031,1,7,working,Voltaire,43.603767,3.888659
+039,1,6,working,Aiguelongue,43.626163,3.882492
+046,7,1,working,Père Soulas,43.621983,3.855603
+056,2,10,working,Albert 1er - Cathédrale,43.614005,3.873218
+001,6,5,working,Rue Jules Ferry - Gare Saint-Roch,43.605366,3.881346
+004,5,11,working,Hôtel de Ville,43.599088,3.894866
+009,1,5,working,Observatoire,43.606301,3.87724
+015,3,5,working,Les Aubes,43.618692,3.893844
+025,1,6,working,Nouveau Saint-Roch,43.599817,3.875757
+044,0,8,working,Celleneuve,43.61467,3.832624
+045,1,7,working,Jardin de la Lironde,43.60585,3.911576
+047,4,4,working,Place Viala,43.616812,3.855075
+050,2,6,working,Parvis Jules Ferry - Gare Saint-Roch,43.603889,3.879362
+043,0,8,working,Sabines,43.584211,3.860031
+055,21,47,working,Pérols Etang de l'Or,43.558351,3.963412
+059,5,3,working,Sud De France,43.59562,3.9235
+005,2,10,working,Corum,43.613989,3.8816
+013,4,4,working,Emile Combes,43.616742,3.87998
+016,3,9,working,Antigone centre,43.607942,3.890634
+021,11,5,working,Port Marianne,43.60032,3.89851
+023,0,8,working,Les Arceaux,43.612659,3.867734
+024,1,7,working,Cité Mion,43.601143,3.884373
+026,3,5,working,Renouvier,43.603553,3.867884
+034,1,15,working,Vert Bois,43.63543,3.871179
+035,2,6,working,Malbosc,43.633679,3.832861
+036,13,19,working,Occitanie,43.635689,3.849597
+037,6,17,working,Fac des Sciences,43.631318,3.861299
+038,5,7,working,Fac de Lettres,43.630437,3.869539
+049,2,6,working,Tonnelles,43.615155,3.839466
+054,2,6,working,Providence - Ovalie,43.588239,3.853421
+051,4,8,working,Pont de Lattes - Gare Saint-Roch,43.606036,3.882393
+057,3,5,working,Saint-Guilhem - Courreau,43.608996,3.872752

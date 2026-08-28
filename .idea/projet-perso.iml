@@ -5,7 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/models" />
     </content>
-    <orderEntry type="jdk" jdkName="uv (projet_perso)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="~\Desktop\PredictionVelo\prediction-velo-tam\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
