@@ -1,0 +1,35 @@
+# Environments & Package Managers
+.venv/
+.uv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Data & Models (Artefacts lourds)
+models/*.joblib
+models/*.pkl
+models/*.onnx
+models/*.pth
+pipeline/
+data/
+results/
+*.csv
+*.parquet
+
+# Power BI (Publié sur Power BI Service)
+*.pbix
+
+# Clés de sécurité & Credentials GCP
+*.json
+!.gitattributes
+.env
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
