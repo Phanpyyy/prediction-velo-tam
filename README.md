@@ -24,8 +24,27 @@ Ce projet prend les données en temps réel sur les stations de vélos de Montpe
 ---
 
 ## Modèle ML
-En cours de développement.
+Encore en cours de développement.
 
+**Algorithme actuel** : Random Forest Regressor entraîné pour prédire le nombre de vélos disponibles (`availableBikeNumber`) par station et par heure.
+
+**Features utilisées :**
+- `station_id` (encodé via Target Encoding)
+- `hour` 
+- `dayOfWeek` 
+- `isWeekend` 
+- `isHolidays` 
+
+**Méthodologie d'évaluation :**
+- Validation croisée temporelle (`TimeSeriesSplit`, 5 folds) pour respecter la chronologie des données.
+- Métriques suivies : MAE et RMSE.
+
+**Pipeline** : le modèle final est ré-entraîné sur l'intégralité des données disponibles après validation.
+
+**Améliorations futures envisagées :**
+- Test d'autres modèles (par ex XGBoost)
+- Optimisation des hyperparamètres (actuellement `random_state=42` par défaut, pas de recherche d'hyperparamètres)
+- Ajout de features supplémentaires (météo)
 
 ---
 
