@@ -1,4 +1,4 @@
-# Prédiction Vélo Montpellier (API Cloud Run & Power BI Dashboard)
+# Prédiction Vélo Montpellier
 
 Ce projet prend les données en temps réel sur les stations de vélos de Montpellier, les stocke dans Google BigQuery et les visualise sur un dashboard Power BI.
 
