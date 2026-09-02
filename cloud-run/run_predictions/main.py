@@ -48,7 +48,7 @@ def run_predictions(request):
         pipeline = joblib.load(local_model_path)
 
         #Récupération des stations depuis bigquery
-        bq_client = bigquery.Client()
+        bq_client = bigquery.Client(location="europe-west1")
         query_stations = "SELECT DISTINCT station_id FROM `prediction-velo.prediction_velo_raw.station_referentiel`"
         stations_df = bq_client.query(query_stations).to_dataframe()
         stations_list = stations_df["station_id"].tolist()
