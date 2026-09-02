@@ -1,25 +1,23 @@
-# 1. Image de base Python officielle et légère
-FROM python:3.11-slim
+# Utiliser une image Python officielle légère
+FROM python:3.10-slim
 
-# 2. Éviter la création de fichiers .pyc et forcer l'affichage direct des logs
+# Empêcher la création de fichiers .pyc et forcer le stream direct des logs
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PORT=8080
 
-# 3. Définir le dossier de travail dans le conteneur
+# Définir le répertoire de travail
 WORKDIR /app
 
-# 4. Copier d'abord le requirements pour profiter du cache Docker lors des builds
+# Copier et installer les dépendances en premier (optimisation du cache Docker)
 COPY requirements.txt .
-
-# 5. Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 6. Copier l'ensemble du code du microservice
+# Copier l'intégralité du code source
 COPY . .
 
-# 7. Exposer le port par défaut de Cloud Run
+# Exposer le port réseau
 EXPOSE 8080
 
-# 8. Lancer l'application Flask avec Gunicorn (production)
+# Démarrer le serveur WSGI de production Gunicorn
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
