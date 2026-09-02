@@ -7,13 +7,13 @@ from datetime import timezone
 
 """
 A lancer une seule fois pour :
-- initialiser la table realtime avec toutes les anciennes données.
+- initialiser la table realtime avec l'historique des données.
 - créer la table station_referentiel.
 """
 
 
-#Récupère les anciennes données
-def load_all_stations_historical_to_bigquery(project_id, dataset_id, table_id, force=False):
+#Récupère l'historique des données
+def load_historical_data_to_bigquery(project_id, dataset_id, table_id, force=False):
     client = bigquery.Client(project=project_id)
     table_full_path = f"{project_id}.{dataset_id}.{table_id}"
 
@@ -83,13 +83,15 @@ def load_all_stations_historical_to_bigquery(project_id, dataset_id, table_id, f
         return None
 
 
-
+#Récupère les données de localisation des stations et crée la table station_referentiel
 def load_stations_to_bigquery(project_id, dataset_id):
     url_stations = "https://gbfs.theta.fifteen.eu/gbfs/2.2/montpellier/en/station_information.json"
+    #Envoi de la requête et récup des données
     response = requests.get(url_stations).json()
 
     # Extraction des données
     stations_list = response["data"]["stations"]
+    stations_list = response.get("data", "").get("stations", [])
     df_locations = pd.DataFrame(stations_list)
 
     # Conservation des colonnes clés

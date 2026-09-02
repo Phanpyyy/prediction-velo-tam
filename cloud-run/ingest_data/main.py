@@ -12,7 +12,7 @@ Les données historiques et les données de localisation des stations sont
 à récupérer avec scripts/backfill_raw_data.py
 """
 
-#id du projet bigquery
+# id du projet bigquery
 PROJECT_ID = "prediction-velo"
 DATASET_ID = "prediction_velo_raw"
 TABLE_ID = "realtime"
@@ -23,7 +23,7 @@ def ingest_realtime_data(request):
     url = "https://portail-api-data.montpellier.fr/ngsi-ld/v1/entities?type=BikeHireDockingStation"
 
     try:
-        #Envoie requête à l'API pour récup les données
+        #Envoi de la requête à l'API pour récup les données
         response = requests.get(url, timeout=10)
 
         if not response.ok:
