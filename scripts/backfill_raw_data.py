@@ -1,9 +1,7 @@
-import os
+
 from google.cloud import bigquery
 import pandas as pd
 import requests
-from datetime import datetime
-from datetime import timezone
 
 """
 A lancer une seule fois pour :
@@ -13,65 +11,60 @@ A lancer une seule fois pour :
 
 
 #Récupère l'historique des données
-def load_historical_data_to_bigquery(project_id, dataset_id, table_id, force=False):
+def load_historical_data_to_bigquery(project_id, dataset_id, table_id, data=False):
     client = bigquery.Client(project=project_id)
     table_full_path = f"{project_id}.{dataset_id}.{table_id}"
 
-    # --- Vérifie si la table contient déjà des données ---
-    if not force:
+    #Vérifie si la table contient déjà des données pour éviter de les rajouter une deuxième fois
+    if not data:
         try:
             table = client.get_table(table_full_path)
             if table.num_rows > 0:
-                print(
-                    f" Historique déjà chargé ({table.num_rows} lignes) — étape ignorée. "
-                    f"Utilise force=True pour forcer le rechargement."
-                )
+                print(f" Historique déjà chargé ({table.num_rows} lignes) — étape ignorée. ")
                 return None
         except Exception:
-            # La table n'existe pas encore, on continue normalement
+            #La table n'existe pas encore, on continue normalement
             pass
 
-    url = (
-        "https://portail-api-data.montpellier.fr/ngsi-ld/v1/temporal/entities"
+    url = ("https://portail-api-data.montpellier.fr/ngsi-ld/v1/temporal/entities"
         "?type=BikeHireDockingStation"
         "&format=temporalValues"
         "&timerel=after"
         "&timeAt=2025-12-31T23%3A59%3A59Z"
     )
 
-    response = requests.get(url, timeout=15)
+    response = requests.get(url, timeout=30)
 
-    if response.status_code in [200, 206]:
+    if response.ok:
+        #Récupération des données dans entities
         entities = response.json()
         data_clean = []
 
+        #On prend les données qui nous intéressent et on les met en forme
         for entity in entities:
-            full_id = entity.get("id", "")
-            station_id = full_id.split(":")[-1] if ":" in full_id else full_id
-            station_id = str(station_id).zfill(3)  # <-- cohérence avec stations_referentiel
+            #Récupération de l'id de la station qui est d'origine sous forme : "urn:ngsi-ld:station:001"
+            station_id = entity.get("id", "").split(":")[-1].zfill(3)
 
-            available_bike = entity.get("availableBikeNumber", {})
-            values = available_bike.get("values", [])
+            #Récupération du nb de vélo
+            available_bike = entity.get("availableBikeNumber", {}).get("value", [])
 
-            for bike_number, date in values:
+            for bike_number, date in available_bike:
                 data_clean.append(
                     {
                         "station_id": station_id,
-                        "availableBikeNumber": int(bike_number)
-                        if bike_number is not None
-                        else None,
+                        "availableBikeNumber": int(bike_number),
                         "date": date,
                     }
                 )
 
+        #Conversion en dataframe
         df = pd.DataFrame(data_clean)
         df["date"] = pd.to_datetime(df["date"])
 
+        #Envoi dans bigquery
         job_config = bigquery.LoadJobConfig(write_disposition="WRITE_APPEND")
 
-        job = client.load_table_from_dataframe(
-            df, table_full_path, job_config=job_config
-        )
+        job = client.load_table_from_dataframe(df, table_full_path, job_config=job_config)
         job.result()
 
         print(
@@ -89,30 +82,25 @@ def load_stations_to_bigquery(project_id, dataset_id):
     #Envoi de la requête et récup des données
     response = requests.get(url_stations).json()
 
-    # Extraction des données
-    stations_list = response["data"]["stations"]
-    stations_list = response.get("data", "").get("stations", [])
+    #Extraction des données
+    stations_list = response.get("data", {}).get("stations", [])
     df_locations = pd.DataFrame(stations_list)
 
-    # Conservation des colonnes clés
+    #Conservation des colonnes qui nous intéresse
     df_locations = df_locations[["station_id", "name", "lat", "lon"]]
 
-    # Conversion du station_id en format propre avec zfill
-    df_locations["station_id"] = (
-        df_locations["station_id"].astype(str).str.zfill(3)
-    )
+    #Conversion du station_id en format propre avec zfill
+    df_locations["station_id"] = (df_locations["station_id"].astype(str).str.zfill(3))
 
-    # --- ENVOI DIRECT DANS BIGQUERY (SANS PANDAS-GBQ) ---
+    #Envoi dans bigquery
     client = bigquery.Client(project=project_id)
     table_full_path = f"{project_id}.{dataset_id}.station_referentiel"
 
-    # 'WRITE_TRUNCATE' permet d'écraser la table du référentiel pour la garder toujours à jour
+    # "WRITE_TRUNCATE" - écrase et remplace totalement la table
     job_config = bigquery.LoadJobConfig(write_disposition="WRITE_TRUNCATE")
 
-    job = client.load_table_from_dataframe(
-        df_locations, table_full_path, job_config=job_config
-    )
-    job.result()  # Attend la fin du traitement
+    job = client.load_table_from_dataframe(df_locations, table_full_path, job_config=job_config)
+    job.result()
 
     print(
         f" Référentiel des stations mis à jour dans BigQuery ! ({len(df_locations)} stations)"
@@ -120,18 +108,15 @@ def load_stations_to_bigquery(project_id, dataset_id):
     return df_locations
 
 
-# In[10]:
+# ---- Lancement des fonctions ----
 
-
-PROJECT_ID = "prediction-velo"  # L'ID de ton projet GCP
+PROJECT_ID = "prediction-velo"
 DATASET_ID = "prediction_velo_raw"
 TABLE_ID = "realtime"
 
-# 1. Tu lances d'abord l'historique une seule fois pour charger le passé
-load_all_stations_historical_to_bigquery(PROJECT_ID, DATASET_ID, TABLE_ID)
+#Historique des données
+load_historical_data_to_bigquery(PROJECT_ID, DATASET_ID, TABLE_ID)
 
-# 2. Tu peux tester l'ajout d'un relevé instantané
-load_latest_stations_to_bigquery(PROJECT_ID, DATASET_ID, TABLE_ID)
-
+#Table station_referentiel
 load_stations_to_bigquery(PROJECT_ID, DATASET_ID)
 

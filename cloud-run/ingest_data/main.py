@@ -75,10 +75,8 @@ def ingest_realtime_data(request):
             ],
         )
 
-        #Envoi des données
-        job = client.load_table_from_dataframe(
-            df_latest, table_full_path, job_config=job_config
-        )
+        #Envoi des données dans la table
+        job = client.load_table_from_dataframe(df_latest, table_full_path, job_config=job_config)
         job.result()
 
         return (
