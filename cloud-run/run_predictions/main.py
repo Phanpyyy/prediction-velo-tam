@@ -12,6 +12,9 @@ def clean_data(df):
     df = df.copy()
     df["date"] = pd.to_datetime(df["date"], utc=True).dt.tz_convert("Europe/Paris").dt.tz_localize(None)
 
+    if "station_id" in df.columns:
+        df["station_id"] = df["station_id"].astype(str)
+
     #Conversion seulement si la colonne existe
     if "availableBikeNumber" in df.columns:
         df["availableBikeNumber"] = df["availableBikeNumber"].astype(float)
