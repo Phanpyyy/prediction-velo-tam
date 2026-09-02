@@ -24,7 +24,7 @@ Ce projet prend les données en temps réel sur les stations de vélos de Montpe
 ---
 
 ## Modèle ML
-
+En cours de développement.
 
 
 ---
@@ -38,7 +38,3 @@ Ce projet prend les données en temps réel sur les stations de vélos de Montpe
 
 Lien vers la visualisation : https://app.powerbi.com/links/SGdx-gdNy9?ctid=67c313fc-3764-4c09-a4a1-81f35edcef53&pbi_source=linkShare 
 
-
----
-
-## Installation
