@@ -10,10 +10,8 @@ from google.cloud import storage, bigquery
 #Nettoyage et feature engineering
 def clean_data(df):
     df = df.copy()
-    df["date"] = pd.to_datetime(df["date"])
-    if df["date"].dt.tz is not None:
-        df["date"] = df["date"].dt.tz_convert("Europe/Paris").dt.tz_localize(None)
-        
+    df["date"] = pd.to_datetime(df["date"], utc=True).dt.tz_convert("Europe/Paris").dt.tz_localize(None)
+
     if "station_id" in df.columns:
         df["station_id"] = df["station_id"].astype(str)
 
