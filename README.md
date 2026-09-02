@@ -24,7 +24,7 @@ Ce projet prend les données en temps réel sur les stations de vélos de Montpe
 ---
 
 ## Modèle ML
-Encore en cours de développement dans train.ipynb.
+Encore en cours de développement dans notebooks/train.ipynb.
 
 **Algorithme actuel** : Random Forest Regressor entraîné pour prédire le nombre de vélos disponibles (`availableBikeNumber`) par station et par heure.
 
