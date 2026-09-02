@@ -52,7 +52,7 @@ def run_predictions():
 
     # --- B. Récupération des stations depuis BigQuery ---
     bq_client = bigquery.Client()
-    query_stations = "SELECT DISTINCT station_id FROM `prediction-velo.prediction_velo_raw.stations_referentiel`"
+    query_stations = "SELECT DISTINCT station_id FROM `prediction-velo.prediction_velo_raw.station_referentiel`"
     stations_df = bq_client.query(query_stations).to_dataframe()
     stations_list = stations_df["station_id"].tolist()
 
