@@ -6,17 +6,17 @@ Ce projet prend les données en temps réel sur les stations de vélos de Montpe
 
 ## Architecture
 
-1. **Récupération des données :** Script Python exécuté avec Cloud Run pour récupérer les données de l'API des vélos de Montpellier. (maj toutes les heures avec Cloud Schedule)
+1. **Récupération des données :** Script Python ingest_data.py exécuté avec Cloud Run pour récupérer les données de l'API des vélos de Montpellier. (maj toutes les heures avec Cloud Schedule)
 2. **Stockage Cloud :** Données stockées dans google BigQuery.
 3. **Entraînement de notre modèle de prédictions et récupération du pipeline :** Script Python train.py. (exécution manuelle)
-4. **Réalisation des prédictions :** Script Python exécuté avec Cloud Run puis envoi de la table prédictions dans BigQuery. (maj toutes les heures avec Cloud Schedule)
+4. **Réalisation des prédictions :** Script Python run_predictions exécuté avec Cloud Run puis envoi de la table prédictions dans BigQuery. (maj toutes les heures avec Cloud Schedule)
 5. **Visualisation :** Power BI - Récupération des données en mode **Import** et rafraîchissement des données 8 fois par jour (le max possible).
 
 ---
 
 ## Structure BigQuery (dataset `prediction_velo_raw`)
 - `realtime` : relevés bruts des données en temps réel.
-- `stations_referentiel` : référentiel des stations (nom, lat/lon)
+- `station_referentiel` : référentiel des stations (nom, lat/lon)
 - `predictions` : prédictions brutes du modèle (sur 7 jours)
 - `station_complet` (vue) : jointure realtime + référentiel
 - `predictions_view` (vue) : jointure predictions + référentiel
