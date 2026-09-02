@@ -54,8 +54,8 @@ def run_predictions(request):
         stations_list = stations_df["station_id"].tolist()
 
         #Génération des dates (7 prochains jours)
-        start_date = datetime.datetime.now().replace(minute=0, second=0, microsecond=0)
-        future_dates = pd.date_range(start=start_date, periods=24 * 7, freq="h")
+        start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        future_dates = pd.date_range(start=start_date, periods=24 * 8, freq="h")
 
         #On crée le dataframe avec les stations_id et les dates
         future_grid = [
